@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: hellbenders_mongo_database
+    image: mongo:latest
+    restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 40s
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_USER: elias
+      MONGO_PASSWORD: elias 
+    volumes:
+      - database:/data/db
+    networks:
+      - hellbenders_network 
+
+  server:
+    container_name: hellbenders_public_backend
+    image: hellbenders_public_backend
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: ["npm", "run", "start:dev"]
+    networks:
+      - hellbenders_network 
+
+volumes:
+  database:
+    name: hellbenders_mongo_database 
+  
+networks:
+  hellbenders_network:
+    name: hellbenders_network 
+    driver: bridge
