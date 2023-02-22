@@ -12,7 +12,14 @@ require("dotenv").config();
 const PORT = "8080";
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://www.hellbenders.world",
+  // origin: "http://localhost:3050",
+  // oritin: "*",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use("/user", userRouter);

@@ -7,3 +7,5 @@ dist
 .git
 .env.prod
 .env.dev
+deploy.sh
+deploy-prod.sh

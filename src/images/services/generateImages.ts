@@ -28,19 +28,5 @@ export async function generateImages(
 
   const { profileImageURL, nftImageURL } = result.data;
 
-  // const combinedImage = await combineImages(layersToCombine);
-
-  // const croppedImage = await cropFakeIDImage(combinedImage, 3100, 3100);
-
-  // const [resizedImage, nftImageURL] = await Promise.all([
-  // resizeImageForProfile(croppedImage),
-  // uploadNFTImage(`${request.name}.png`, croppedImage),
-  // ]);
-
-  // const profileImageURL = await uploadProfileImage(
-  // `profile/${request.name}-${new Date().getTime()}.png`,
-  // resizedImage
-  // );
-
   return { profileImageURL, nftImageURL };
 }

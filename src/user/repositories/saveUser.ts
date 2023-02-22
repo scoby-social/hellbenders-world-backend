@@ -18,7 +18,7 @@ export async function saveUser(user: User): Promise<User> {
     .limit(1)
     .toArray();
 
-  user.seniority = lastSeniorityUser.seniority;
+  user.seniority = lastSeniorityUser.seniority + 1;
 
   const res = await userCollection.insertOne(user);
 

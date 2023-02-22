@@ -8,11 +8,11 @@ interface RoyaltyWithWalletParams {
   type: Royalties;
 }
 
-const clubhouseFakeID = process.env.NEXT_PUBLIC_CLUBHOUSE_FAKE_ID as string;
-
 export async function addRoyaltiesAndBroodToUsers(
   values: RoyaltyWithWalletParams[]
 ) {
+  const clubhouseFakeID = process.env.CLUBHOUSE_FAKE_ID as string;
+
   values.forEach(async (val) => {
     if (await checkIfFakeIDExists(val.fakeID)) {
       addRoyaltiesToFakeIDUser(val.fakeID, val.type);

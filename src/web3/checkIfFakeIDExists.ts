@@ -2,19 +2,20 @@ import { Metaplex } from "@metaplex-foundation/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 
 export async function checkIfFakeIDExists(
-  fakeIDAddress: string | undefined
+  fakeIDAddress: string | undefined,
+  count = 0
 ): Promise<boolean> {
   try {
-    if (!fakeIDAddress) return false;
+    if (!fakeIDAddress || count === 4) return false;
     await getNFTWithMetadata(fakeIDAddress);
     return true;
-  } catch (_) {
-    return false;
+  } catch (err) {
+    return checkIfFakeIDExists(fakeIDAddress, count + 1);
   }
 }
 
 async function getNFTWithMetadata(nftAddress: string) {
-  const conn = new Connection(process.env.NEXT_PUBLIC_SOLANA_CLUSTER!);
+  const conn = new Connection(process.env.SOLANA_CLUSTER!);
   const mintAddress = new PublicKey(nftAddress);
 
   const metaplex = new Metaplex(conn);
