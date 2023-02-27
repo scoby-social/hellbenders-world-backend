@@ -1,30 +1,62 @@
 import express from "express";
+import { validationResult } from "express-validator";
 import { deleteFile } from "../firebase/deleteFile";
 import { deleteShadowDriveFile } from "../shdw_drive/deleteFile";
 import { generateImages } from "./services/generateImages";
+import { deleteFileValidator, generateImagesValidator } from "./validators";
 
 export const imagesRouter = express.Router();
 
-imagesRouter.post("/generate", async (req, res) => {
-  const body = req.body;
+imagesRouter.post(
+  "/generate",
+  generateImagesValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
 
-  const result = await generateImages(body);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  res.send(result);
-});
+    const body = req.body;
 
-imagesRouter.delete("/profile", async (req, res) => {
-  const url = req.query.url as string;
+    const result = await generateImages(body);
 
-  await deleteFile(url);
+    res.send(result);
+  }
+);
 
-  res.send(true);
-});
+imagesRouter.delete(
+  "/profile",
+  deleteFileValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
 
-imagesRouter.delete("/shdw-drive", async (req, res) => {
-  const url = req.query.url as string;
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  await deleteShadowDriveFile(url);
+    const url = req.query.url as string;
 
-  res.send(true);
-});
+    await deleteFile(url);
+
+    res.send(true);
+  }
+);
+
+imagesRouter.delete(
+  "/shdw-drive",
+  deleteFileValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const url = req.query.url as string;
+
+    await deleteShadowDriveFile(url);
+
+    res.send(true);
+  }
+);

@@ -1,9 +1,17 @@
 import express from "express";
+import { matchedData, validationResult } from "express-validator";
+
 import { checkIfUserExists } from "./services/checkIfUserExists";
 import { createUser } from "./services/createUser";
 import { getBroodUsers } from "./services/getBroodUsers";
 import { getUser } from "./services/getUser";
 import { markUserAsDeceased } from "./services/markUserAsDeceased";
+import {
+  createUserValidator,
+  markDeceasedValidator,
+  userBroodValidator,
+  userExistsValidator,
+} from "./validators";
 
 export const userRouter = express.Router();
 
@@ -16,34 +24,83 @@ userRouter.get("/", async (req, res) => {
   res.send(user);
 });
 
-userRouter.get("/exists", async (req, res) => {
-  const username = req.query.username as string;
+userRouter.get(
+  "/exists",
+  userExistsValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
 
-  const exists = await checkIfUserExists(username);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  res.send(exists);
-});
+    const username = req.query.username as string;
 
-userRouter.get("/brood", async (req, res) => {
-  const fakeID = req.query.fakeID as string;
+    const exists = await checkIfUserExists(username);
 
-  const result = await getBroodUsers(fakeID);
+    res.send(exists);
+  }
+);
 
-  res.send(result);
-});
+userRouter.get(
+  "/brood",
+  userBroodValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
 
-userRouter.post("/", async (req, res) => {
-  const body = req.body;
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const createdUser = await createUser(body);
+    const fakeID = req.query.fakeID as string;
 
-  res.send(createdUser);
-});
+    const result = await getBroodUsers(fakeID);
 
-userRouter.patch("/mark-deceased", async (req, res) => {
-  const id = req.query.id as string;
+    res.send(result);
+  }
+);
 
-  await markUserAsDeceased(id);
+userRouter.post(
+  "/",
+  createUserValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
 
-  res.send(true);
-});
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const data = matchedData(req);
+
+    if (Object.keys(data).length !== Object.keys(req.body).length) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid request body.",
+      });
+    }
+
+    const body = req.body;
+
+    const createdUser = await createUser(body);
+
+    res.send(createdUser);
+  }
+);
+
+userRouter.patch(
+  "/mark-deceased",
+  markDeceasedValidator,
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.query.id as string;
+
+    await markUserAsDeceased(id);
+
+    res.send(true);
+  }
+);
