@@ -1,6 +1,7 @@
 import express from "express";
 import { checkIfUserExists } from "./services/checkIfUserExists";
 import { createUser } from "./services/createUser";
+import { getBroodCount } from "./services/getBroodCount";
 import { getBroodUsers } from "./services/getBroodUsers";
 import { getUser } from "./services/getUser";
 import { markUserAsDeceased } from "./services/markUserAsDeceased";
@@ -26,8 +27,28 @@ userRouter.get("/exists", async (req, res) => {
 
 userRouter.get("/brood", async (req, res) => {
   const fakeID = req.query.fakeID as string;
+  const skip = req.query.skip as string | undefined;
+  const limit = req.query.limit as string | undefined;
+  const filterField = req.query.filter as string | undefined;
+  const filterValue = req.query.order as string | undefined;
+  const generations = req.query.gens as string | undefined;
 
-  const result = await getBroodUsers(fakeID);
+  const result = await getBroodUsers(
+    fakeID,
+    skip,
+    limit,
+    filterField,
+    filterValue,
+    generations
+  );
+
+  res.send(result);
+});
+
+userRouter.get("/total-brood", async (req, res) => {
+  const fakeID = req.query.fakeID as string;
+
+  const result = await getBroodCount(fakeID);
 
   res.send(result);
 });

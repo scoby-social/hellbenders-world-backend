@@ -1,9 +1,33 @@
 import { User } from "../entities/user.entity";
 import { getUsersThatBelongsToBrood } from "../repositories/getUsersThatBelongsToBrood";
 import { BroodUsers } from "../types/broodUsers";
+import { genFilterType } from "../types/genFilterType";
 
-export async function getBroodUsers(fakeID: string): Promise<BroodUsers> {
-  const allUsers = await getUsersThatBelongsToBrood(fakeID);
+export async function getBroodUsers(
+  fakeID: string,
+  skip: string | undefined,
+  limit: string | undefined,
+  filter: string | undefined,
+  value: string | undefined,
+  generations: string | undefined
+): Promise<BroodUsers> {
+  const skipValue = Number(skip) || 0;
+  const limitValue = Number(limit) || 15;
+
+  const filterField = filter || "seniority";
+  const filterValue = Number(value) || -1;
+
+  const genFilter = (generations?.split(",") || []) as genFilterType[];
+
+  const allUsers = await getUsersThatBelongsToBrood(
+    fakeID,
+    skipValue,
+    limitValue,
+    filterField,
+    filterValue,
+    genFilter
+  );
+
   const gen1Users: User[] = [];
   const gen2Users: User[] = [];
   const gen3Users: User[] = [];

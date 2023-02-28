@@ -18,17 +18,28 @@ export async function getUsers(
 
   const findCondition: Filter<User> = {};
 
-  if (search)
+  if (search) {
+    search.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+
+    const usernameRegex = new RegExp(`${search}`);
+    const amplifierRegex = new RegExp(`${search}`);
+    const superpowerRegex = new RegExp(`${search}`);
+
     findCondition["$or"] = [
       {
-        username: `/${search}/`,
-        amplifierRole: `/${search}/`,
-        superpowerRole: `/${search}/`,
+        username: usernameRegex,
+      },
+      {
+        amplifierRole: amplifierRegex,
+      },
+      {
+        superpowerRole: superpowerRegex,
       },
     ];
+  }
 
   const users = await userCollection
-    .find(findCondition)
+    .find({ ...findCondition })
     .sort(sortCondition)
     .skip(skip > 0 ? skip : 0)
     .limit(limit)

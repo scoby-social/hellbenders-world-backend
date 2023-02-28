@@ -11,7 +11,8 @@ export async function getPaginatedUsers(
   const page = skip || 0;
   const count = limit || 0;
 
-  const value = filterValue === "DESC" ? 1 : -1;
+  const value = Number(filterValue) || -1;
+
   const filter = filterField || "seniority";
 
   return getUsers(page, count, filter, value, search);
