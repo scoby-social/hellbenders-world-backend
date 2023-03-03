@@ -15,6 +15,7 @@ export const createUserValidator = [
   body("telegramHandle").isString(),
   body("discordHandle").isString(),
   body("parent").isString().trim(),
+  body("metadataUrl").isURL(),
 ];
 
 export const markDeceasedValidator = [

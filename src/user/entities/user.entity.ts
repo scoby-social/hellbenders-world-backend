@@ -1,7 +1,9 @@
+import { ObjectId } from "mongodb";
+import { UserMetadata } from "../types/userMetadata";
 import { Pronouns } from "./pronouns";
 
-export interface User {
-  _id: string;
+export interface User extends UserMetadata {
+  _id: ObjectId | string;
   username: string; // ID Card name
   amplifierRole: string;
   superpowerRole: string;

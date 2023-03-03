@@ -13,4 +13,5 @@ export interface CreateUserReqBody {
   telegramHandle: string;
   discordHandle: string;
   parent: string;
+  metadataUrl: string;
 }

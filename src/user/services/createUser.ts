@@ -5,12 +5,16 @@ import { getUserByFakeID } from "../repositories/getUserByFakeID";
 import { saveUser } from "../repositories/saveUser";
 import { CreateUserReqBody } from "../types/createUserReqBody";
 import { addRoyaltiesAndBroodToUsers } from "./addRoyaltiesAndBroodToUser";
+import { getUserMetadataByURL } from "./getUserMetadataByURL";
 
 export async function createUser(data: CreateUserReqBody): Promise<User> {
   const parentUser = await getUserByFakeID(data.parent);
 
+  const metadata = await getUserMetadataByURL(data.metadataUrl);
+
   const user: User = {
     ...data,
+    ...metadata,
     _id: new ObjectId().toString(),
     brood: 0,
     royalties: 0,
