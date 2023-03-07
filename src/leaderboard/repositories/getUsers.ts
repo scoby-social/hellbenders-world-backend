@@ -21,9 +21,9 @@ export async function getUsers(
   if (search) {
     search.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
 
-    const usernameRegex = new RegExp(`${search}`);
-    const amplifierRegex = new RegExp(`${search}`);
-    const superpowerRegex = new RegExp(`${search}`);
+    const usernameRegex = new RegExp(`\\b${search}\\b`, "i");
+    const amplifierRegex = new RegExp(`\\b${search}\\b`, "i");
+    const superpowerRegex = new RegExp(`\\b${search}\\b`, "i");
 
     findCondition["$or"] = [
       {
