@@ -1,6 +1,14 @@
 import { body, query } from "express-validator";
 import { ObjectId } from "mongodb";
 import { Pronouns } from "./entities/pronouns";
+import { genFilterType } from "./types/genFilterType";
+
+const generationMap = {
+  gen1: "parent",
+  gen2: "grandParent",
+  gen3: "grandGrandParent",
+  gen4: "grandGrandGrandParent",
+};
 
 export const createUserValidator = [
   body("username").isString().isLength({ min: 1, max: 15 }),
@@ -34,4 +42,20 @@ export const userExistsValidator = [
 
 export const userBroodValidator = [
   query("fakeID").isString().trim().notEmpty(),
+  query("generations").custom((value) => {
+    if (!value) return Promise.reject("Invalid query params");
+
+    if (value.length === 0) return Promise.reject("Invalid query params");
+
+    const splittedValue = value
+      .split(",")
+      .map((val: string) => val.trim())
+      .filter((val: genFilterType) => !!generationMap[val]);
+
+    if (splittedValue.length === 0) {
+      return Promise.reject("Invalid query params");
+    }
+
+    return Promise.resolve();
+  }),
 ];

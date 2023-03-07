@@ -58,7 +58,7 @@ userRouter.get(
     const limit = req.query.limit as string | undefined;
     const filterField = req.query.filter as string | undefined;
     const filterValue = req.query.order as string | undefined;
-    const generations = req.query.gens as string | undefined;
+    const generations = req.query.generations as string;
 
     const result = await getBroodUsers(
       fakeID,
