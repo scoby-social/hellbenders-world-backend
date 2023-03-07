@@ -1,6 +1,6 @@
 import { Sort, SortDirection } from "mongodb";
 import { db } from "../../config/mongoClient";
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 import { GenBroodFilter } from "../types/genBroodFilter";
 import { genFilterType } from "../types/genFilterType";
 

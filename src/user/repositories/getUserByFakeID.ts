@@ -1,5 +1,5 @@
 import { db } from "../../config/mongoClient";
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 
 export async function getUserByFakeID(fakeID: string): Promise<User> {
   const query = { fakeID };

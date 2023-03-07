@@ -1,4 +1,4 @@
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 import { getUserByFakeID } from "../repositories/getUserByFakeID";
 import { getUserByUsername } from "../repositories/getUserByUsername";
 

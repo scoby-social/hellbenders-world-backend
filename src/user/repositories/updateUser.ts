@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { db } from "../../config/mongoClient";
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 
 export async function updateUser(
   user: User,

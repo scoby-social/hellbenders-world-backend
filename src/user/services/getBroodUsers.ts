@@ -1,4 +1,4 @@
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 import { getUsersThatBelongsToBrood } from "../repositories/getUsersThatBelongsToBrood";
 import { genFilterType } from "../types/genFilterType";
 

@@ -1,4 +1,4 @@
-import { User } from "../../user/entities/user.entity";
+import { User } from "../../user/types/user";
 import { getUsers } from "../repositories/getUsers";
 
 export async function getPaginatedUsers(

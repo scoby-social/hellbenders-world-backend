@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { Royalties } from "../entities/royalties";
-import { User } from "../entities/user.entity";
+import { Royalties } from "../types/royalties";
+import { User } from "../types/user";
 import { getUserByFakeID } from "../repositories/getUserByFakeID";
 import { saveUser } from "../repositories/saveUser";
 import { CreateUserReqBody } from "../types/createUserReqBody";

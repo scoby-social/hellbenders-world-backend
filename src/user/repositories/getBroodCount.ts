@@ -1,5 +1,5 @@
 import { db } from "../../config/mongoClient";
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 import { BroodCount } from "../types/broodCount";
 
 export async function getBroodCount(fakeID: string): Promise<BroodCount> {

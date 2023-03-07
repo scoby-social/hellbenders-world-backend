@@ -1,4 +1,4 @@
-import { Pronouns } from "../entities/pronouns";
+import { Pronouns } from "../types/pronouns";
 
 export interface CreateUserReqBody {
   username: string;

@@ -1,4 +1,4 @@
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 
 export interface BroodUsers {
   gen1: User[];

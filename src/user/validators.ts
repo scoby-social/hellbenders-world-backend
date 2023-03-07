@@ -1,6 +1,6 @@
 import { body, query } from "express-validator";
 import { ObjectId } from "mongodb";
-import { Pronouns } from "./entities/pronouns";
+import { Pronouns } from "./types/pronouns";
 import { genFilterType } from "./types/genFilterType";
 
 const generationMap = {

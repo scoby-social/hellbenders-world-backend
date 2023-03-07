@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { db } from "../../config/mongoClient";
-import { User } from "../entities/user.entity";
+import { User } from "../types/user";
 import { getUserByFakeID } from "./getUserByFakeID";
 
 export async function saveUser(user: User): Promise<User> {

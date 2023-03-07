@@ -1,5 +1,5 @@
 import { checkIfFakeIDExists } from "../../web3/checkIfFakeIDExists";
-import { Royalties } from "../entities/royalties";
+import { Royalties } from "../types/royalties";
 import { getUserByFakeID } from "../repositories/getUserByFakeID";
 import { updateUser } from "../repositories/updateUser";
 

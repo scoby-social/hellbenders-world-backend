@@ -1,7 +1,7 @@
 import { Sort, SortDirection, Filter } from "mongodb";
 
 import { db } from "../../config/mongoClient";
-import { User } from "../../user/entities/user.entity";
+import { User } from "../../user/types/user";
 
 export async function getUsers(
   skip: number,
