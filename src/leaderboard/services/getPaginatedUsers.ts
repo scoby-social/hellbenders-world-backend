@@ -3,10 +3,17 @@ import { getUsers } from "../repositories/getUsers";
 
 export async function getPaginatedUsers(
   skip?: number,
-  limit?: number
+  limit?: number,
+  search?: string,
+  filterField?: string,
+  filterValue?: string
 ): Promise<User[]> {
   const page = skip || 0;
   const count = limit || 0;
 
-  return getUsers(page, count);
+  const value = Number(filterValue) || -1;
+
+  const filter = filterField || "seniority";
+
+  return getUsers(page, count, filter, value, search);
 }

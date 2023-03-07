@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { db } from "../../config/mongoClient";
 import { User } from "../entities/user.entity";
 import { getUserByFakeID } from "./getUserByFakeID";
@@ -8,6 +9,7 @@ export async function saveUser(user: User): Promise<User> {
 
   const leaderUser = await getUserByFakeID(user.parent);
 
+  user._id = new ObjectId();
   user.grandParent = leaderUser.parent || clubhouseFakeID;
   user.grandGrandParent = leaderUser.grandParent || clubhouseFakeID;
   user.grandGrandGrandParent = leaderUser.grandGrandParent || clubhouseFakeID;
